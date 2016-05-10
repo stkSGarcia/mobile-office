@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<group android:checkableBehavior="single">
+		<item
+				android:id="@+id/opportunity_menu"
+				android:icon="@drawable/ic_menu_opportunity"
+				android:title="@string/opportunity"/>
+		<item
+				android:id="@+id/customer_menu"
+				android:icon="@drawable/ic_menu_customer"
+				android:title="@string/customer"/>
+		<item
+				android:id="@+id/contract_menu"
+				android:icon="@drawable/ic_menu_contract"
+				android:title="@string/contract"/>
+		<item
+				android:id="@+id/business_menu"
+				android:icon="@drawable/ic_menu_business"
+				android:title="@string/business"/>
+		<item
+				android:id="@+id/product_menu"
+				android:icon="@drawable/ic_menu_product"
+				android:title="@string/product"/>
+		<item
+				android:id="@+id/contact_menu"
+				android:icon="@drawable/ic_menu_contact"
+				android:title="@string/contact"/>
+	</group>
+
+</menu>
