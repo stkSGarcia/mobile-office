@@ -7,8 +7,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
+import stk.mobileoffice.business.BusinessFragment;
+import stk.mobileoffice.contact.ContactFragment;
+import stk.mobileoffice.contract.ContractFragment;
+import stk.mobileoffice.customer.CustomerFragment;
+import stk.mobileoffice.opportunity.OpportunityFragment;
+import stk.mobileoffice.product.ProductFragment;
 
 public class MainActivity extends AppCompatActivity
 		implements NavigationView.OnNavigationItemSelectedListener {
@@ -30,8 +35,8 @@ public class MainActivity extends AppCompatActivity
 		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 		navigationView.setNavigationItemSelectedListener(this);
 
-
-//		getSupportActionBar().setTitle("商机");
+		getSupportActionBar().setTitle("商机");
+		getFragmentManager().beginTransaction().replace(R.id.content, new OpportunityFragment()).commit();
 	}
 
 	@Override
@@ -49,33 +54,33 @@ public class MainActivity extends AppCompatActivity
 		switch (item.getItemId()) {
 			case R.id.opportunity_menu:
 				toolbar.setTitle("商机");
-				OpportunityList opportunityList = new OpportunityList();
-				getFragmentManager().beginTransaction().replace(R.id.content, opportunityList).commit();
+				OpportunityFragment opportunityFragment = new OpportunityFragment();
+				getFragmentManager().beginTransaction().replace(R.id.content, opportunityFragment).commit();
 				break;
 			case R.id.customer_menu:
 				toolbar.setTitle("客户");
-				CustomerList customerList = new CustomerList();
-				getFragmentManager().beginTransaction().replace(R.id.content, customerList).commit();
+				CustomerFragment customerFragment = new CustomerFragment();
+				getFragmentManager().beginTransaction().replace(R.id.content, customerFragment).commit();
 				break;
 			case R.id.contract_menu:
 				toolbar.setTitle("合同");
-				ContractList contractList = new ContractList();
-				getFragmentManager().beginTransaction().replace(R.id.content, contractList).commit();
+				ContractFragment contractFragment = new ContractFragment();
+				getFragmentManager().beginTransaction().replace(R.id.content, contractFragment).commit();
 				break;
 			case R.id.business_menu:
 				toolbar.setTitle("业务");
-				Business business = new Business();
-				getFragmentManager().beginTransaction().replace(R.id.content, business).commit();
+				BusinessFragment businessFragment = new BusinessFragment();
+				getFragmentManager().beginTransaction().replace(R.id.content, businessFragment).commit();
 				break;
 			case R.id.product_menu:
 				toolbar.setTitle("产品");
-				ProductList productList = new ProductList();
-				getFragmentManager().beginTransaction().replace(R.id.content, productList).commit();
+				ProductFragment productFragment = new ProductFragment();
+				getFragmentManager().beginTransaction().replace(R.id.content, productFragment).commit();
 				break;
 			case R.id.contact_menu:
 				toolbar.setTitle("联系人");
-				ContractList contactList = new ContractList();
-				getFragmentManager().beginTransaction().replace(R.id.content, contactList).commit();
+				ContactFragment contactFragment = new ContactFragment();
+				getFragmentManager().beginTransaction().replace(R.id.content, contactFragment).commit();
 				break;
 			default:
 				return super.onOptionsItemSelected(item);

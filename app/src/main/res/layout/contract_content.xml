@@ -3,10 +3,11 @@
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
-
-	<ListView
-			android:id="@+id/opportunity_list"
+	<TextView
+			android:id="@+id/customer_text"
 			android:layout_width="match_parent"
-			android:layout_height="match_parent"/>
+			android:layout_height="match_parent"
+			android:text="Contract"
+			android:textSize="50dp"/>
 
 </RelativeLayout>

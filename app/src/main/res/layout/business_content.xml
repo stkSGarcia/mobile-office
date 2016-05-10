@@ -7,8 +7,7 @@
 			android:id="@+id/customer_text"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:text="Product"
-			android:paddingTop="250dp"
+			android:text="Business"
 			android:textSize="50dp"/>
 
 </RelativeLayout>

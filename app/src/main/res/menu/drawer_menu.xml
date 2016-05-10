@@ -5,7 +5,8 @@
 		<item
 				android:id="@+id/opportunity_menu"
 				android:icon="@drawable/ic_menu_opportunity"
-				android:title="@string/opportunity"/>
+				android:title="@string/opportunity"
+				android:checked="true"/>
 		<item
 				android:id="@+id/customer_menu"
 				android:icon="@drawable/ic_menu_customer"
