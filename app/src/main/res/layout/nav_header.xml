@@ -18,13 +18,13 @@
 			android:layout_height="wrap_content"
 			android:paddingTop="10dp"
 			android:text="游客"
-			android:textColor="@color/nav_text_color"/>
+			android:textColor="#ffffff"/>
 
 	<TextView
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:paddingTop="6dp"
 			android:text="ID: XXXXXXXXXX"
-			android:textColor="@color/nav_text_color"/>
+			android:textColor="#ffffff"/>
 
 </LinearLayout>

@@ -2,6 +2,7 @@ package stk.mobileoffice;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,31 +18,33 @@ import stk.mobileoffice.product.ProductFragment;
 
 public class MainActivity extends AppCompatActivity
 		implements NavigationView.OnNavigationItemSelectedListener {
-	Toolbar toolbar;
+	private Toolbar toolbar;
+	private DrawerLayout drawer;
+	private NavigationView navigation;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.drawer);
-
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+		navigation = (NavigationView) findViewById(R.id.nav_view);
+
 		setSupportActionBar(toolbar);
 
-		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-		drawer.setDrawerListener(toggle);
+		drawer.addDrawerListener(toggle);
 		toggle.syncState();
 
-		NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-		navigationView.setNavigationItemSelectedListener(this);
-
-		getSupportActionBar().setTitle("商机");
-		getFragmentManager().beginTransaction().replace(R.id.content, new OpportunityFragment()).commit();
+		navigation.setNavigationItemSelectedListener(this);
+		//Demo data
+		DemoData.add_opportunity(this);
+		//初始界面
+		getSupportFragmentManager().beginTransaction().replace(R.id.content, new OpportunityFragment()).commit();
 	}
 
 	@Override
 	public void onBackPressed() {
-		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		if (drawer.isDrawerOpen(GravityCompat.START)) {
 			drawer.closeDrawer(GravityCompat.START);
 		} else {
@@ -51,41 +54,30 @@ public class MainActivity extends AppCompatActivity
 
 	@Override
 	public boolean onNavigationItemSelected(MenuItem item) {
+		Fragment fragment;
 		switch (item.getItemId()) {
 			case R.id.opportunity_menu:
-				toolbar.setTitle("商机");
-				OpportunityFragment opportunityFragment = new OpportunityFragment();
-				getFragmentManager().beginTransaction().replace(R.id.content, opportunityFragment).commit();
+				fragment = new OpportunityFragment();
 				break;
 			case R.id.customer_menu:
-				toolbar.setTitle("客户");
-				CustomerFragment customerFragment = new CustomerFragment();
-				getFragmentManager().beginTransaction().replace(R.id.content, customerFragment).commit();
+				fragment = new CustomerFragment();
 				break;
 			case R.id.contract_menu:
-				toolbar.setTitle("合同");
-				ContractFragment contractFragment = new ContractFragment();
-				getFragmentManager().beginTransaction().replace(R.id.content, contractFragment).commit();
+				fragment = new ContractFragment();
 				break;
 			case R.id.business_menu:
-				toolbar.setTitle("业务");
-				BusinessFragment businessFragment = new BusinessFragment();
-				getFragmentManager().beginTransaction().replace(R.id.content, businessFragment).commit();
+				fragment = new BusinessFragment();
 				break;
 			case R.id.product_menu:
-				toolbar.setTitle("产品");
-				ProductFragment productFragment = new ProductFragment();
-				getFragmentManager().beginTransaction().replace(R.id.content, productFragment).commit();
+				fragment = new ProductFragment();
 				break;
 			case R.id.contact_menu:
-				toolbar.setTitle("联系人");
-				ContactFragment contactFragment = new ContactFragment();
-				getFragmentManager().beginTransaction().replace(R.id.content, contactFragment).commit();
+				fragment = new ContactFragment();
 				break;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
-		DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+		getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
 		drawer.closeDrawer(GravityCompat.START);
 		return true;
 	}
