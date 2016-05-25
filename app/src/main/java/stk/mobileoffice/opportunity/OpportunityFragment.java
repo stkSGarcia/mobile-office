@@ -26,10 +26,10 @@ public class OpportunityFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("商机");
-		View view = inflater.inflate(R.layout.opportunity_content, container, false);
+		View view = inflater.inflate(R.layout.content_list, container, false);
 		data = getData();
 		SimpleAdapter adapter = new SimpleAdapter(getContext(), data, R.layout.opportunity_list, new String[]{"name", "level", "image"}, new int[]{R.id.opportunity_list_name, R.id.opportunity_list_level, R.id.opportunity_list_image});
-		ListView list = (ListView) view.findViewById(R.id.opportunity_list);
+		ListView list = (ListView) view.findViewById(R.id.content_list);
 		list.setAdapter(adapter);
 		list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
@@ -55,6 +55,7 @@ public class OpportunityFragment extends Fragment {
 			list.add(map);
 		}
 		cursor.close();
+		db.close();
 		return list;
 	}
 

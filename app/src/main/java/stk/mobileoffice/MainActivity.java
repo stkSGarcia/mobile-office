@@ -39,6 +39,10 @@ public class MainActivity extends AppCompatActivity
 		navigation.setNavigationItemSelectedListener(this);
 		//Demo data
 		DemoData.add_opportunity(this);
+		DemoData.add_customer(this);
+		DemoData.add_contract(this);
+		DemoData.add_product(this);
+		DemoData.add_contact(this);
 		//初始界面
 		getSupportFragmentManager().beginTransaction().replace(R.id.content, new OpportunityFragment()).commit();
 	}

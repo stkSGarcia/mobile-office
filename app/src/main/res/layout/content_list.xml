@@ -3,11 +3,9 @@
 		xmlns:android="http://schemas.android.com/apk/res/android"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
-	<TextView
-			android:id="@+id/customer_text"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			android:text="Contract"
-			android:textSize="50dp"/>
 
+	<ListView
+			android:id="@+id/content_list"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"/>
 </RelativeLayout>
