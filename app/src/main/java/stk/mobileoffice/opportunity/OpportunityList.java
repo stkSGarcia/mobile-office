@@ -1,4 +1,4 @@
-package stk.mobileoffice.customer;
+package stk.mobileoffice.opportunity;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -20,15 +20,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class CustomerFragment extends Fragment {
+public class OpportunityList extends Fragment {
 	private List<Map<String, Object>> data;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("客户");
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("商机");
 		View view = inflater.inflate(R.layout.content_list, container, false);
 		data = getData();
-		SimpleAdapter adapter = new SimpleAdapter(getContext(), data, R.layout.customer_list, new String[]{"name", "level", "image"}, new int[]{R.id.customer_list_name, R.id.customer_list_level, R.id.customer_list_image});
+		SimpleAdapter adapter = new SimpleAdapter(getContext(), data, R.layout.opportunity_list, new String[]{"name", "level", "image"}, new int[]{R.id.opportunity_list_name, R.id.opportunity_list_level, R.id.opportunity_list_image});
 		ListView list = (ListView) view.findViewById(R.id.content_list);
 		list.setAdapter(adapter);
 		list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -43,7 +43,7 @@ public class CustomerFragment extends Fragment {
 	private List<Map<String, Object>> getData() {
 		DBHelper dbHelper = new DBHelper(getContext());
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
-		Cursor cursor = db.query(true, "customer", new String[]{"_id", "name", "level"}, null, null, null, null, null, null);
+		Cursor cursor = db.query(true, "opportunity", new String[]{"_id", "name", "level"}, null, null, null, null, null, null);
 		List<Map<String, Object>> list = new ArrayList<>();
 		Map<String, Object> map;
 		while (cursor.moveToNext()) {
@@ -51,7 +51,7 @@ public class CustomerFragment extends Fragment {
 			map.put("_id", cursor.getInt(cursor.getColumnIndex("_id")));
 			map.put("name", cursor.getString(cursor.getColumnIndex("name")));
 			map.put("level", cursor.getString(cursor.getColumnIndex("level")));
-			map.put("image", R.drawable.ic_menu_customer);
+			map.put("image", R.drawable.ic_menu_opportunity);
 			list.add(map);
 		}
 		cursor.close();
@@ -60,7 +60,7 @@ public class CustomerFragment extends Fragment {
 	}
 
 	private void showDetail(int id) {
-		Fragment fragment = new CustomerDetail();
+		Fragment fragment = new OpportunityDetail();
 		Bundle bundle = new Bundle();
 		bundle.putString("_id", id+"");
 		fragment.setArguments(bundle);

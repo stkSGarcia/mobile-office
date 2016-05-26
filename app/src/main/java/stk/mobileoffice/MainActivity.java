@@ -10,11 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import stk.mobileoffice.business.BusinessFragment;
-import stk.mobileoffice.contact.ContactFragment;
-import stk.mobileoffice.contract.ContractFragment;
-import stk.mobileoffice.customer.CustomerFragment;
-import stk.mobileoffice.opportunity.OpportunityFragment;
-import stk.mobileoffice.product.ProductFragment;
+import stk.mobileoffice.contact.ContactList;
+import stk.mobileoffice.contract.ContractList;
+import stk.mobileoffice.customer.CustomerList;
+import stk.mobileoffice.opportunity.OpportunityList;
+import stk.mobileoffice.product.ProductList;
 
 public class MainActivity extends AppCompatActivity
 		implements NavigationView.OnNavigationItemSelectedListener {
@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity
 		DemoData.add_product(this);
 		DemoData.add_contact(this);
 		//初始界面
-		getSupportFragmentManager().beginTransaction().replace(R.id.content, new OpportunityFragment()).commit();
+		getSupportFragmentManager().beginTransaction().replace(R.id.content, new OpportunityList()).commit();
 	}
 
 	@Override
@@ -61,22 +61,22 @@ public class MainActivity extends AppCompatActivity
 		Fragment fragment;
 		switch (item.getItemId()) {
 			case R.id.opportunity_menu:
-				fragment = new OpportunityFragment();
+				fragment = new OpportunityList();
 				break;
 			case R.id.customer_menu:
-				fragment = new CustomerFragment();
+				fragment = new CustomerList();
 				break;
 			case R.id.contract_menu:
-				fragment = new ContractFragment();
+				fragment = new ContractList();
 				break;
 			case R.id.business_menu:
 				fragment = new BusinessFragment();
 				break;
 			case R.id.product_menu:
-				fragment = new ProductFragment();
+				fragment = new ProductList();
 				break;
 			case R.id.contact_menu:
-				fragment = new ContactFragment();
+				fragment = new ContactList();
 				break;
 			default:
 				return super.onOptionsItemSelected(item);

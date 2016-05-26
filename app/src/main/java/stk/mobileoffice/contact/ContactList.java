@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ContactFragment extends Fragment {
+public class ContactList extends Fragment {
 	private List<Map<String, Object>> data;
 
 	@Override

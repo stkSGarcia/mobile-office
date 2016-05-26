@@ -1,4 +1,4 @@
-package stk.mobileoffice.contract;
+package stk.mobileoffice.product;
 
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -20,16 +20,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-public class ContractFragment extends Fragment {
+public class ProductList extends Fragment {
 	private List<Map<String, Object>> data;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("合同");
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("产品");
 		View view = inflater.inflate(R.layout.content_list, container, false);
 		data = getData();
-		SimpleAdapter adapter = new SimpleAdapter(getContext(), data, R.layout.contract_list, new String[]{"name", "level", "image"}, new int[]{R.id.contract_list_name, R.id.contract_list_level, R.id.contract_list_image});
+		SimpleAdapter adapter = new SimpleAdapter(getContext(), data, R.layout.product_list, new String[]{"name", "price", "image"}, new int[]{R.id.product_list_name, R.id.product_list_price, R.id.product_list_image});
 		ListView list = (ListView) view.findViewById(R.id.content_list);
 		list.setAdapter(adapter);
 		list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -44,15 +43,15 @@ public class ContractFragment extends Fragment {
 	private List<Map<String, Object>> getData() {
 		DBHelper dbHelper = new DBHelper(getContext());
 		SQLiteDatabase db = dbHelper.getReadableDatabase();
-		Cursor cursor = db.query(true, "contract", new String[]{"_id", "name", "level"}, null, null, null, null, null, null);
+		Cursor cursor = db.query(true, "product", new String[]{"_id", "name", "price"}, null, null, null, null, null, null);
 		List<Map<String, Object>> list = new ArrayList<>();
 		Map<String, Object> map;
 		while (cursor.moveToNext()) {
 			map = new HashMap<>();
 			map.put("_id", cursor.getInt(cursor.getColumnIndex("_id")));
 			map.put("name", cursor.getString(cursor.getColumnIndex("name")));
-			map.put("level", cursor.getString(cursor.getColumnIndex("level")));
-			map.put("image", R.drawable.ic_menu_contract);
+			map.put("price", cursor.getString(cursor.getColumnIndex("price")) + " 元");
+			map.put("image", R.drawable.ic_menu_product);
 			list.add(map);
 		}
 		cursor.close();
@@ -61,7 +60,7 @@ public class ContractFragment extends Fragment {
 	}
 
 	private void showDetail(int id) {
-		Fragment fragment = new ContractDetail();
+		Fragment fragment = new ProductDetail();
 		Bundle bundle = new Bundle();
 		bundle.putString("_id", id+"");
 		fragment.setArguments(bundle);
