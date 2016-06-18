@@ -9,6 +9,12 @@
 			android:layout_height="wrap_content"
 			android:orientation="vertical"
 			android:padding="20dp">
+		<ImageView
+				android:id="@+id/product_detail_pic"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"
+				android:paddingBottom="30dp"/>
 		<TextView
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
@@ -71,12 +77,41 @@
 				android:layout_marginBottom="10dp"
 				android:textSize="20sp"
 				android:textStyle="bold"
-				android:text="其他"/>
+				android:text="产品类别"/>
 		<TextView
-				android:id="@+id/product_detail_desc"
+				android:id="@+id/product_detail_class"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:layout_marginBottom="30dp"
+				android:textSize="25sp"
+				tools:text="机器"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="10dp"
+				android:textSize="20sp"
+				android:textStyle="bold"
+				android:text="产品介绍"/>
+		<TextView
+				android:id="@+id/product_detail_intro"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="30dp"
 				android:textSize="25sp"
 				tools:text="啦啦啦啦"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="10dp"
+				android:textSize="20sp"
+				android:textStyle="bold"
+				android:text="评价"/>
+		<TextView
+				android:id="@+id/product_detail_remark"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="30dp"
+				android:textSize="25sp"
+				tools:text="好"/>
 	</LinearLayout>
 </ScrollView>

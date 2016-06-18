@@ -9,10 +9,11 @@ import android.view.ViewGroup;
 import stk.mobileoffice.R;
 
 public class BusinessFragment extends Fragment {
+	private View view;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		view = inflater.inflate(R.layout.business_content, container, false);
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("业务");
-		View view = inflater.inflate(R.layout.business_content, container, false);
 		return view;
 	}
 }

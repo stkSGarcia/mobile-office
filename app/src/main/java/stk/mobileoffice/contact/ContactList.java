@@ -1,71 +1,75 @@
 package stk.mobileoffice.contact;
 
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ListView;
+import android.util.Log;
 import android.widget.SimpleAdapter;
-import stk.mobileoffice.DBHelper;
+import org.json.JSONObject;
+import stk.mobileoffice.ContentList;
 import stk.mobileoffice.R;
 
-import java.util.ArrayList;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class ContactList extends Fragment {
-	private List<Map<String, Object>> data;
+public class ContactList extends ContentList {
+	@Override
+	protected void set() {
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("联系人");
+		adapter = new SimpleAdapter(getContext(), data, R.layout.contact_list, new String[]{"name", "image"}, new int[]{R.id.contact_list_name, R.id.contact_list_image});
+	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("联系人");
-		View view = inflater.inflate(R.layout.content_list, container, false);
-		data = getData();
-		SimpleAdapter adapter = new SimpleAdapter(getContext(), data, R.layout.contact_list, new String[]{"name", "image"}, new int[]{R.id.contact_list_name, R.id.contact_list_image});
-		ListView list = (ListView) view.findViewById(R.id.content_list);
-		list.setAdapter(adapter);
-		list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+	protected void showDetail(int id) {
+		Intent intent = new Intent(this.getActivity(), ContactDetail.class);
+		intent.putExtra("_id", id+"");
+		startActivity(intent);
+	}
+
+	@Override
+	protected void showData() {
+		currentpage++;
+		new Thread(new Runnable() {
 			@Override
-			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-				showDetail((int) data.get(i).get("_id"));
+			public void run() {
+				try {
+					URL url = new URL("http://nqiwx.mooctest.net:8090/wexin.php/Api/Index/common_contacts_json");
+					HttpURLConnection con = (HttpURLConnection) url.openConnection();
+					con.setRequestMethod("POST");
+					con.setDoOutput(true);
+					con.setDoInput(true);
+					String str = "currentpage=" + currentpage;
+					byte[] strData = str.getBytes("UTF-8");
+					OutputStream out = con.getOutputStream();
+					out.write(strData);
+					if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
+						BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+						StringBuilder result = new StringBuilder();
+						String s;
+						while ((s = in.readLine()) != null)
+							result.append(s);
+						Log.i("Contact_List_Data", result.toString());
+						JSONObject total = new JSONObject(result.toString());
+						pagecount = total.getInt("pagecount");
+						JSONObject single;
+						Map<String, Object> map;
+						for (int i = 0; i < total.getInt("currentcount"); i++) {
+							map = new HashMap<>();
+							single = total.getJSONObject(i+"");
+							map.put("_id", single.getInt("contactsid"));
+							map.put("name", single.getString("contactsname"));
+							map.put("image", R.drawable.ic_menu_contact);
+							data.add(map);
+						}
+					}
+				} catch (Exception e) {
+					Log.e("Contact_List", "Get detail failed.");
+				}
 			}
-		});
-		return view;
-	}
-
-	private List<Map<String, Object>> getData() {
-		DBHelper dbHelper = new DBHelper(getContext());
-		SQLiteDatabase db = dbHelper.getReadableDatabase();
-		Cursor cursor = db.query(true, "contact", new String[]{"_id", "name"}, null, null, null, null, null, null);
-		List<Map<String, Object>> list = new ArrayList<>();
-		Map<String, Object> map;
-		while (cursor.moveToNext()) {
-			map = new HashMap<>();
-			map.put("_id", cursor.getInt(cursor.getColumnIndex("_id")));
-			map.put("name", cursor.getString(cursor.getColumnIndex("name")));
-			map.put("image", R.drawable.ic_menu_contact);
-			list.add(map);
-		}
-		cursor.close();
-		db.close();
-		return list;
-	}
-
-	private void showDetail(int id) {
-		Fragment fragment = new ContactDetail();
-		Bundle bundle = new Bundle();
-		bundle.putString("_id", id+"");
-		fragment.setArguments(bundle);
-		FragmentTransaction transaction = getFragmentManager().beginTransaction();
-		transaction.replace(R.id.content, fragment);
-		transaction.addToBackStack(null);
-		transaction.commit();
+		}).start();
 	}
 }

@@ -4,7 +4,6 @@
 		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent">
-
 	<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
@@ -30,6 +29,20 @@
 				android:layout_marginBottom="10dp"
 				android:textSize="20sp"
 				android:textStyle="bold"
+				android:text="手机号码"/>
+		<TextView
+				android:id="@+id/contact_detail_mobile"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="30dp"
+				android:textSize="25sp"
+				tools:text="12345678"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="10dp"
+				android:textSize="20sp"
+				android:textStyle="bold"
 				android:text="电话号码"/>
 		<TextView
 				android:id="@+id/contact_detail_tel"
@@ -44,12 +57,60 @@
 				android:layout_marginBottom="10dp"
 				android:textSize="20sp"
 				android:textStyle="bold"
-				android:text="其他"/>
+				android:text="电子邮箱"/>
 		<TextView
-				android:id="@+id/contact_detail_desc"
+				android:id="@+id/contact_detail_mail"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
+				android:layout_marginBottom="30dp"
 				android:textSize="25sp"
-				tools:text="啦啦啦啦"/>
+				tools:text="12345678@qq.com"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="10dp"
+				android:textSize="20sp"
+				android:textStyle="bold"
+				android:text="年龄"/>
+		<TextView
+				android:id="@+id/contact_detail_age"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="30dp"
+				android:textSize="25sp"
+				tools:text="18"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="10dp"
+				android:textSize="20sp"
+				android:textStyle="bold"
+				android:text="性别"/>
+		<TextView
+				android:id="@+id/contact_detail_gender"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="30dp"
+				android:textSize="25sp"
+				tools:text="男"/>
+		<TextView
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="10dp"
+				android:textSize="20sp"
+				android:textStyle="bold"
+				android:text="地址"/>
+		<TextView
+				android:id="@+id/contact_detail_addr"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="30dp"
+				android:textSize="25sp"
+				tools:text="广州路"/>
+		<ImageView
+				android:id="@+id/contact_detail_pic"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center"/>
 	</LinearLayout>
 </ScrollView>

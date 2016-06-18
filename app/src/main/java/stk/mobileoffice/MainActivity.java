@@ -11,13 +11,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import stk.mobileoffice.business.BusinessFragment;
 import stk.mobileoffice.contact.ContactList;
-import stk.mobileoffice.contract.ContractList;
 import stk.mobileoffice.customer.CustomerList;
 import stk.mobileoffice.opportunity.OpportunityList;
 import stk.mobileoffice.product.ProductList;
 
-public class MainActivity extends AppCompatActivity
-		implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 	private Toolbar toolbar;
 	private DrawerLayout drawer;
 	private NavigationView navigation;
@@ -29,20 +27,11 @@ public class MainActivity extends AppCompatActivity
 		toolbar = (Toolbar) findViewById(R.id.toolbar);
 		drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		navigation = (NavigationView) findViewById(R.id.nav_view);
-
 		setSupportActionBar(toolbar);
-
 		ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
 		drawer.addDrawerListener(toggle);
 		toggle.syncState();
-
 		navigation.setNavigationItemSelectedListener(this);
-		//Demo data
-		DemoData.add_opportunity(this);
-		DemoData.add_customer(this);
-		DemoData.add_contract(this);
-		DemoData.add_product(this);
-		DemoData.add_contact(this);
 		//初始界面
 		getSupportFragmentManager().beginTransaction().replace(R.id.content, new OpportunityList()).commit();
 	}
@@ -67,8 +56,8 @@ public class MainActivity extends AppCompatActivity
 				fragment = new CustomerList();
 				break;
 			case R.id.contract_menu:
-				fragment = new ContractList();
-				break;
+//				fragment = new ContractList();
+//				break;
 			case R.id.business_menu:
 				fragment = new BusinessFragment();
 				break;
