@@ -47,11 +47,10 @@ public class ContentList extends Fragment implements SwipeRefreshLayout.OnRefres
         refreshLoadListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                showDetail((int) data.get(i).get("_id"));
+                showDetail(data.get(i));
             }
         });
         showData();
-        adapter.notifyDataSetChanged();
     }
 
     @Override
@@ -59,20 +58,17 @@ public class ContentList extends Fragment implements SwipeRefreshLayout.OnRefres
         currentpage = 0;
         data = new ArrayList<>();
         showData();
-        adapter.notifyDataSetChanged();
         swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
     public void onLoadingMore() {
-        if (currentpage < pagecount) {
+        if (currentpage < pagecount)
             showData();
-            adapter.notifyDataSetChanged();
-        }
         refreshLoadListView.loadMoreComplete();
     }
 
     protected void set(){}
-    protected void showDetail(int id){}
+    protected void showDetail(Map<String, Object> i){}
     protected void showData(){}
 }

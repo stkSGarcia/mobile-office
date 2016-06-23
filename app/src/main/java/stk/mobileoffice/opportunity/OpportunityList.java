@@ -7,6 +7,7 @@ import android.widget.SimpleAdapter;
 import org.json.JSONObject;
 import stk.mobileoffice.ContentList;
 import stk.mobileoffice.R;
+import stk.mobileoffice.TypeMap;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -24,9 +25,10 @@ public class OpportunityList extends ContentList {
 	}
 
 	@Override
-	protected void showDetail(int id) {
+	protected void showDetail(Map<String, Object> i) {
 		Intent intent = new Intent(this.getActivity(), OpportunityDetail.class);
-		intent.putExtra("_id", id+"");
+		String msg = i.get("_id") +";"+ i.get("customername");
+		intent.putExtra("msg", msg);
 		startActivity(intent);
 	}
 
@@ -61,8 +63,9 @@ public class OpportunityList extends ContentList {
 							map = new HashMap<>();
 							single = total.getJSONObject(i+"");
 							map.put("_id", single.getInt("opportunityid"));
+							map.put("customername", single.getString("customername"));
 							map.put("name", single.getString("opportunitytitle"));
-							map.put("level", single.getString("businesstype"));
+							map.put("level", TypeMap.getBusniessType(single.getString("businesstype")));
 							map.put("image", R.drawable.ic_menu_opportunity);
 							data.add(map);
 						}

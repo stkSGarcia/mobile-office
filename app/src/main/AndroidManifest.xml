@@ -18,6 +18,10 @@
 				<category android:name="android.intent.category.LAUNCHER"/>
 			</intent-filter>
 		</activity>
+		<activity android:name=".opportunity.OpportunityDetail"
+				  android:parentActivityName=".MainActivity"/>
+		<activity android:name=".customer.CustomerDetail"
+				  android:parentActivityName=".MainActivity"/>
 		<activity android:name=".product.ProductDetail"
 				  android:parentActivityName=".MainActivity"/>
 		<activity android:name=".contact.ContactDetail"

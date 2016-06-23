@@ -12,10 +12,6 @@
 				android:icon="@drawable/ic_menu_customer"
 				android:title="@string/customer"/>
 		<item
-				android:id="@+id/contract_menu"
-				android:icon="@drawable/ic_menu_contract"
-				android:title="@string/contract"/>
-		<item
 				android:id="@+id/business_menu"
 				android:icon="@drawable/ic_menu_business"
 				android:title="@string/business"/>

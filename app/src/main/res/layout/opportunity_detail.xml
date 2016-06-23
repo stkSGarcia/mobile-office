@@ -10,7 +10,7 @@
 			android:orientation="vertical">
 		<LinearLayout
 				android:layout_width="match_parent"
-				android:layout_height="200dp"
+				android:layout_height="wrap_content"
 				android:background="@drawable/side_nav_bar"
 				android:orientation="vertical"
 				android:padding="16dp">
@@ -20,13 +20,14 @@
 				<TextView
 						android:id="@+id/opportunity_detail_name"
 						android:layout_width="wrap_content"
+						android:maxWidth="300dp"
 						android:layout_height="wrap_content"
 						android:textSize="40sp"
 						android:textColor="#ffffff"
-						tools:text="南京大学"
+						tools:text="南京大学南京大学南京大学"
 						tools:background="#00f0f0"/>
 				<TextView
-						android:id="@+id/opportunity_detail_level"
+						android:id="@+id/opportunity_detail_type"
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:layout_marginStart="15dp"
@@ -35,25 +36,87 @@
 						tools:text="普通商机"
 						tools:background="#079201"/>
 			</LinearLayout>
-			<TextView
-					android:id="@+id/opportunity_detail_desc"
+			<LinearLayout
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_marginTop="10dp"
-					android:textSize="20sp"
-					android:textColor="#ffffff"
-					android:scrollbars="vertical"
-					android:singleLine="false"
-					tools:text="balabalabalabala"/>
-		</LinearLayout>
-		<RelativeLayout
-				android:layout_width="match_parent"
-				android:layout_height="match_parent">
+					android:layout_marginTop="10dp">
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginEnd="10dp"
+						android:textSize="20sp"
+						android:textColor="#d9e5fd"
+						android:text="预计销售金额"/>
+				<TextView
+						android:id="@+id/opportunity_detail_amount"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textSize="20sp"
+						android:textColor="#ffffff"
+						tools:text="5000 元"/>
+			</LinearLayout>
+			<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="7dp">
+				<TextView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginEnd="10dp"
+						android:textSize="20sp"
+						android:textColor="#d9e5fd"
+						android:text="对应客户"/>
+				<TextView
+						android:id="@+id/opportunity_detail_customer_name"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:textSize="20sp"
+						android:textColor="#ffffff"
+						tools:text="南京大学"/>
+			</LinearLayout>
 			<TextView
+					android:id="@+id/opportunity_detail_status"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:textSize="30sp"
-					tools:text="Something"/>
-		</RelativeLayout>
+					android:layout_marginTop="10dp"
+					android:textSize="25sp"
+					android:textColor="#ffcaa1"
+					android:layout_gravity="center"
+					tools:text="balabalabalabala"/>
+		</LinearLayout>
+		<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:orientation="vertical"
+				android:padding="20dp">
+			<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="10dp"
+					android:textSize="20sp"
+					android:textStyle="bold"
+					android:text="成功几率"/>
+			<TextView
+					android:id="@+id/opportunity_detail_rate"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="30dp"
+					android:textSize="25sp"
+					tools:text="100%"/>
+			<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="10dp"
+					android:textSize="20sp"
+					android:textStyle="bold"
+					android:text="预计日期"/>
+			<TextView
+					android:id="@+id/opportunity_detail_date"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="30dp"
+					android:textSize="25sp"
+					tools:text="2016/7/1"/>
+		</LinearLayout>
 	</LinearLayout>
 </ScrollView>

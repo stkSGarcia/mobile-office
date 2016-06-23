@@ -121,6 +121,7 @@ public class ProductDetail extends AppCompatActivity {
             if (target != null) {
                 Object[] raw = (Object[]) msg.obj;
                 String[] data = ((String) raw[0]).split(";", -1);
+                getSupportActionBar().setTitle(data[0]);
                 text_name.setText(data[0]);
                 text_number.setText(data[1]);
                 text_price.setText(data[2]);

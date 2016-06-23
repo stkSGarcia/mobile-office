@@ -24,9 +24,9 @@ public class ProductList extends ContentList {
 	}
 
 	@Override
-	protected void showDetail(int id) {
+	protected void showDetail(Map<String, Object> i) {
 		Intent intent = new Intent(this.getActivity(), ProductDetail.class);
-		intent.putExtra("_id", id+"");
+		intent.putExtra("_id", i.get("_id")+"");
 		startActivity(intent);
 	}
 

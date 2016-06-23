@@ -119,6 +119,7 @@ public class ContactDetail extends AppCompatActivity {
             if (target != null) {
                 Object[] raw = (Object[]) msg.obj;
                 String[] data = ((String) raw[0]).split(";", -1);
+                getSupportActionBar().setTitle(data[0]);
                 text_name.setText(data[0]);
                 text_mobile.setText(data[1]);
                 text_tel.setText(data[2]);

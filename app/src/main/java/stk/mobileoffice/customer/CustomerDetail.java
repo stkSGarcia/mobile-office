@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import org.json.JSONObject;
 import stk.mobileoffice.R;
+import stk.mobileoffice.TypeMap;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -21,9 +22,9 @@ public class CustomerDetail extends AppCompatActivity {
     private MHandler handler = new MHandler(this);
     private TextView text_name;
     private TextView text_level;
-    private TextView text_status;
     private TextView text_tel;
     private TextView text_mail;
+    private TextView text_web;
     private TextView text_addr;
 
     @Override
@@ -46,12 +47,12 @@ public class CustomerDetail extends AppCompatActivity {
     }
 
     private void initView() {
-        text_name = (TextView) findViewById(R.id.product_detail_name);
-        text_level = (TextView) findViewById(R.id.product_detail_number);
-        text_status = (TextView) findViewById(R.id.product_detail_price);
-        text_tel = (TextView) findViewById(R.id.product_detail_unit);
-        text_mail = (TextView) findViewById(R.id.product_detail_class);
-        text_addr = (TextView) findViewById(R.id.product_detail_intro);
+        text_name = (TextView) findViewById(R.id.customer_detail_name);
+        text_level = (TextView) findViewById(R.id.customer_detail_level);
+        text_tel = (TextView) findViewById(R.id.customer_detail_tel);
+        text_mail = (TextView) findViewById(R.id.customer_detail_mail);
+        text_web = (TextView) findViewById(R.id.customer_detail_web);
+        text_addr = (TextView) findViewById(R.id.customer_detail_addr);
     }
 
     private void showDetail() {
@@ -59,7 +60,7 @@ public class CustomerDetail extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    URL url = new URL("http://nqiwx.mooctest.net:8090/wexin.php/Api/Index/customer_query_json?cusotmerid=" + id);
+                    URL url = new URL("http://nqiwx.mooctest.net:8090/wexin.php/Api/Index/customer_query_json?customerid=" + id);
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
                     con.setRequestMethod("GET");
                     con.setDoOutput(true);
@@ -74,10 +75,10 @@ public class CustomerDetail extends AppCompatActivity {
                         JSONObject single = new JSONObject(result.toString()).getJSONObject("0");
                         Message msg = new Message();
                         msg.obj = single.getString("customername") + ";" +
-                                single.getString("customertype") + ";" +
-                                single.getString("customerstatus") + ";" +
+                                TypeMap.getCustomerType(single.getString("customertype")) + ";" +
                                 single.getString("telephone") + ";" +
                                 single.getString("email") + ";" +
+                                single.getString("website") + ";" +
                                 single.getString("address");
                         handler.sendMessage(msg);
                     }
@@ -99,11 +100,12 @@ public class CustomerDetail extends AppCompatActivity {
             if (target != null) {
                 String raw = (String) msg.obj;
                 String[] data = raw.split(";", -1);
+                getSupportActionBar().setTitle(data[0]);
                 text_name.setText(data[0]);
                 text_level.setText(data[1]);
-                text_status.setText(data[2]);
-                text_tel.setText(data[3]);
-                text_mail.setText(data[4]);
+                text_tel.setText(data[2]);
+                text_mail.setText(data[3]);
+                text_web.setText(data[4]);
                 text_addr.setText(data[5]);
             }
         }

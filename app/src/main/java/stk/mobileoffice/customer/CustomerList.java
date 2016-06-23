@@ -7,6 +7,7 @@ import android.widget.SimpleAdapter;
 import org.json.JSONObject;
 import stk.mobileoffice.ContentList;
 import stk.mobileoffice.R;
+import stk.mobileoffice.TypeMap;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -21,6 +22,13 @@ public class CustomerList extends ContentList {
 	protected void set() {
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("客户");
 		adapter = new SimpleAdapter(getContext(), data, R.layout.customer_list, new String[]{"name", "level", "image"}, new int[]{R.id.customer_list_name, R.id.customer_list_level, R.id.customer_list_image});
+	}
+
+	@Override
+	protected void showDetail(Map<String, Object> i) {
+		Intent intent = new Intent(this.getActivity(), CustomerDetail.class);
+		intent.putExtra("_id", i.get("_id")+"");
+		startActivity(intent);
 	}
 
 	@Override
@@ -55,7 +63,7 @@ public class CustomerList extends ContentList {
 							single = total.getJSONObject(i+"");
 							map.put("_id", single.getInt("customerid"));
 							map.put("name", single.getString("customername"));
-							map.put("level", single.getString("customertype"));
+							map.put("level", TypeMap.getCustomerType(single.getString("customertype")));
 							map.put("image", R.drawable.ic_menu_customer);
 							data.add(map);
 						}
@@ -65,12 +73,5 @@ public class CustomerList extends ContentList {
 				}
 			}
 		}).start();
-	}
-
-	@Override
-	protected void showDetail(int id) {
-		Intent intent = new Intent(this.getActivity(), CustomerDetail.class);
-		intent.putExtra("_id", id+"");
-		startActivity(intent);
 	}
 }
