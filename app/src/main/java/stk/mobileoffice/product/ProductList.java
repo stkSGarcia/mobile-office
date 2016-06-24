@@ -3,6 +3,8 @@ package stk.mobileoffice.product;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 import org.json.JSONObject;
 import stk.mobileoffice.ContentList;
@@ -17,10 +19,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProductList extends ContentList {
+	private LinearLayout layout;
+
 	@Override
 	protected void set() {
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("产品");
 		adapter = new SimpleAdapter(getContext(), data, R.layout.product_list, new String[]{"name", "price", "image"}, new int[]{R.id.product_list_name, R.id.product_list_price, R.id.product_list_image});
+		layout = (LinearLayout) view.findViewById(R.id.button_layout);
+		layout.setVisibility(View.GONE);
 	}
 
 	@Override

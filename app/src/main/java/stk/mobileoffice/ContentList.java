@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.SimpleAdapter;
 
 import java.util.ArrayList;
@@ -26,6 +27,8 @@ public class ContentList extends Fragment implements SwipeRefreshLayout.OnRefres
     protected List<Map<String, Object>> data;
     protected int currentpage;
     protected int pagecount;
+    protected Button leftButton;
+    protected Button rightButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -35,6 +38,8 @@ public class ContentList extends Fragment implements SwipeRefreshLayout.OnRefres
     }
 
     protected void init() {
+        leftButton = (Button) view.findViewById(R.id.button_left);
+        rightButton = (Button) view.findViewById(R.id.button_right);
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.refresh);
         refreshLoadListView = (RefreshLoadListView) view.findViewById(R.id.content_list);
         swipeRefreshLayout.setOnRefreshListener(this);

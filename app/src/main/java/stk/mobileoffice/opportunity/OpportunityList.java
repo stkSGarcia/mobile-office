@@ -1,6 +1,7 @@
 package stk.mobileoffice.opportunity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.SimpleAdapter;
@@ -22,6 +23,10 @@ public class OpportunityList extends ContentList {
 	protected void set() {
 		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("商机");
 		adapter = new SimpleAdapter(getContext(), data, R.layout.opportunity_list, new String[]{"name", "level", "image"}, new int[]{R.id.opportunity_list_name, R.id.opportunity_list_level, R.id.opportunity_list_image});
+		leftButton.setText("全部商机");
+		rightButton.setText("我的商机");
+		leftButton.setBackgroundResource(R.drawable.button_left_focus);
+		leftButton.setTextColor(Color.WHITE);
 	}
 
 	@Override

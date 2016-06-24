@@ -17,11 +17,11 @@
 			<TextView
 					android:id="@+id/customer_detail_name"
 					android:layout_width="wrap_content"
-					android:maxWidth="300dp"
+					android:maxWidth="285dp"
 					android:layout_height="wrap_content"
 					android:textSize="40sp"
 					android:textColor="#ffffff"
-					tools:text="南京大学"
+					tools:text="南京大学南京大学南京大学南京大学"
 					tools:background="#00f0f0"/>
 			<TextView
 					android:id="@+id/customer_detail_level"
@@ -30,7 +30,7 @@
 					android:layout_marginStart="15dp"
 					android:textSize="15sp"
 					android:textColor="#caab68"
-					tools:text="普通商机"
+					tools:text="普通客户"
 					tools:background="#079201"/>
 		</LinearLayout>
 		<LinearLayout
