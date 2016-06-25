@@ -1,12 +1,12 @@
 package stk.mobileoffice.opportunity;
 
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.SimpleAdapter;
 import org.json.JSONObject;
 import stk.mobileoffice.ContentList;
+import stk.mobileoffice.CurrentUser;
 import stk.mobileoffice.R;
 import stk.mobileoffice.TypeMap;
 
@@ -20,16 +20,6 @@ import java.util.Map;
 
 public class OpportunityList extends ContentList {
 	@Override
-	protected void set() {
-		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("商机");
-		adapter = new SimpleAdapter(getContext(), data, R.layout.opportunity_list, new String[]{"name", "level", "image"}, new int[]{R.id.opportunity_list_name, R.id.opportunity_list_level, R.id.opportunity_list_image});
-		leftButton.setText("全部商机");
-		rightButton.setText("我的商机");
-		leftButton.setBackgroundResource(R.drawable.button_left_focus);
-		leftButton.setTextColor(Color.WHITE);
-	}
-
-	@Override
 	protected void showDetail(Map<String, Object> i) {
 		Intent intent = new Intent(this.getActivity(), OpportunityDetail.class);
 		String msg = i.get("_id") +";"+ i.get("customername");
@@ -38,9 +28,12 @@ public class OpportunityList extends ContentList {
 	}
 
 	@Override
-	protected void showData() {
-		currentpage++;
-		new Thread(new Runnable() {
+	protected void set() {
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("商机");
+		adapter = new SimpleAdapter(getContext(), data, R.layout.opportunity_list, new String[]{"name", "level", "image"}, new int[]{R.id.opportunity_list_name, R.id.opportunity_list_level, R.id.opportunity_list_image});
+		leftButton.setText("全部商机");
+		rightButton.setText("我的商机");
+		runnable = new Runnable() {
 			@Override
 			public void run() {
 				try {
@@ -49,7 +42,14 @@ public class OpportunityList extends ContentList {
 					con.setRequestMethod("POST");
 					con.setDoOutput(true);
 					con.setDoInput(true);
-					String str = "currentpage=" + currentpage;
+					if (isChanged)
+						dataClear();
+					currentpage++;
+					String str;
+					if (mode == 0)
+						str = "currentpage=" + currentpage;
+					else
+						str = "currentpage=" + currentpage + "&staffid=" + CurrentUser.id;
 					byte[] strData = str.getBytes("UTF-8");
 					OutputStream out = con.getOutputStream();
 					out.write(strData);
@@ -74,11 +74,12 @@ public class OpportunityList extends ContentList {
 							map.put("image", R.drawable.ic_menu_opportunity);
 							data.add(map);
 						}
+						handler.sendEmptyMessage(0);
 					}
 				} catch (Exception e) {
 					Log.e("Opportunity_List", "Get detail failed.");
 				}
 			}
-		}).start();
+		};
 	}
 }

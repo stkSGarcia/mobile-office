@@ -9,9 +9,11 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
 import stk.mobileoffice.business.BusinessFragment;
 import stk.mobileoffice.contact.ContactList;
 import stk.mobileoffice.customer.CustomerList;
+import stk.mobileoffice.info.Info;
 import stk.mobileoffice.opportunity.OpportunityList;
 import stk.mobileoffice.product.ProductList;
 
@@ -19,7 +21,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 	private Toolbar toolbar;
 	private DrawerLayout drawer;
 	private NavigationView navigation;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -64,11 +65,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 			case R.id.contact_menu:
 				fragment = new ContactList();
 				break;
+			case R.id.info_menu:
+				fragment = new Info();
+				break;
 			default:
 				return super.onOptionsItemSelected(item);
 		}
 		getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
 		drawer.closeDrawer(GravityCompat.START);
 		return true;
+	}
+
+	private void setHeader() {
+		TextView headerName = (TextView) findViewById(R.id.header_name);
+		TextView headerId = (TextView) findViewById(R.id.header_id);
+		headerName.setText(CurrentUser.name);
+		headerId.setText("ID: "+CurrentUser.id);
 	}
 }

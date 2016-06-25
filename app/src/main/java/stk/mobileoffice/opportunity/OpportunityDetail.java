@@ -21,6 +21,7 @@ public class OpportunityDetail extends AppCompatActivity {
     private String id;
     private String customerName;
     private MHandler handler = new MHandler(this);
+    private Thread thread;
     private TextView text_name;
     private TextView text_amount;
     private TextView text_status;
@@ -61,41 +62,44 @@ public class OpportunityDetail extends AppCompatActivity {
     }
 
     private void showDetail() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL("http://nqiwx.mooctest.net:8090/wexin.php/Api/Index/opportunity_query_json?opportunityid=" + id);
-                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                    con.setRequestMethod("GET");
-                    con.setDoOutput(true);
-                    con.setDoInput(true);
-                    if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                        StringBuilder result = new StringBuilder();
-                        String s;
-                        while ((s = in.readLine()) != null)
-                            result.append(s);
-                        Log.i("Opportunity_Detail_Data", result.toString());
-                        JSONObject single = new JSONObject(result.toString()).getJSONObject("0");
-                        Message msg = new Message();
-                        msg.obj = single.getString("opportunitytitle") + ";" +
-                                single.getString("estimatedamount") + " 元;" +
-                                TypeMap.getOpportunityType(single.getString("opportunitystatus")) + ";" +
-                                TypeMap.getBusniessType(single.getString("businesstype")) + ";" +
-                                single.getString("successrate") + ";" +
-                                single.getString("expecteddate") + ";" +
-                                customerName;
-                        handler.sendMessage(msg);
-                    }
-                } catch (Exception e) {
-                    Log.e("Opportunity_Detail", "Get detail failed.");
-                }
-            }
-        }).start();
+        thread = new Thread(runnable);
+        thread.start();
     }
 
-    private class MHandler extends Handler {
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                URL url = new URL("http://nqiwx.mooctest.net:8090/wexin.php/Api/Index/opportunity_query_json?opportunityid=" + id);
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+                con.setDoOutput(true);
+                con.setDoInput(true);
+                if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                    StringBuilder result = new StringBuilder();
+                    String s;
+                    while ((s = in.readLine()) != null)
+                        result.append(s);
+                    Log.i("Opportunity_Detail_Data", result.toString());
+                    JSONObject single = new JSONObject(result.toString()).getJSONObject("0");
+                    Message msg = new Message();
+                    msg.obj = single.getString("opportunitytitle") + ";" +
+                            single.getString("estimatedamount") + " 元;" +
+                            TypeMap.getOpportunityType(single.getString("opportunitystatus")) + ";" +
+                            TypeMap.getBusniessType(single.getString("businesstype")) + ";" +
+                            single.getString("successrate") + ";" +
+                            single.getString("expecteddate") + ";" +
+                            customerName;
+                    handler.sendMessage(msg);
+                }
+            } catch (Exception e) {
+                Log.e("Opportunity_Detail", "Get detail failed.");
+            }
+        }
+    };
+
+    private static class MHandler extends Handler {
         private final WeakReference<OpportunityDetail> outer;
         MHandler(OpportunityDetail target) {
             outer = new WeakReference<>(target);
@@ -106,14 +110,14 @@ public class OpportunityDetail extends AppCompatActivity {
             if (target != null) {
                 String raw = (String) msg.obj;
                 String[] data = raw.split(";", -1);
-                getSupportActionBar().setTitle(data[0]);
-                text_name.setText(data[0]);
-                text_amount.setText(data[1]);
-                text_status.setText(data[2]);
-                text_type.setText(data[3]);
-                text_rate.setText(data[4]);
-                text_date.setText(data[5]);
-                text_customer_name.setText(data[6]);
+                target.getSupportActionBar().setTitle(data[0]);
+                target.text_name.setText(data[0]);
+                target.text_amount.setText(data[1]);
+                target.text_status.setText(data[2]);
+                target.text_type.setText(data[3]);
+                target.text_rate.setText(data[4]);
+                target.text_date.setText(data[5]);
+                target.text_customer_name.setText(data[6]);
             }
         }
     }

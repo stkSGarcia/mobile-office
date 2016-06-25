@@ -20,8 +20,8 @@
 				android:layout_height="wrap_content"
 				android:layout_weight="1"
 				style="?android:attr/buttonBarButtonStyle"
-				android:background="@drawable/button_left"
-				android:textColor="#6e6e6e"
+				android:background="@drawable/button_left_focus"
+				android:textColor="#dfdfdf"
 				android:textSize="18sp"
 				tools:text="全部商机"/>
 		<Button

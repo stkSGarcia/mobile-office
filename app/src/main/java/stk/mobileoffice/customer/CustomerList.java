@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.SimpleAdapter;
 import org.json.JSONObject;
 import stk.mobileoffice.ContentList;
+import stk.mobileoffice.CurrentUser;
 import stk.mobileoffice.R;
 import stk.mobileoffice.TypeMap;
 
@@ -19,12 +20,6 @@ import java.util.Map;
 
 public class CustomerList extends ContentList {
 	@Override
-	protected void set() {
-		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("客户");
-		adapter = new SimpleAdapter(getContext(), data, R.layout.customer_list, new String[]{"name", "level", "image"}, new int[]{R.id.customer_list_name, R.id.customer_list_level, R.id.customer_list_image});
-	}
-
-	@Override
 	protected void showDetail(Map<String, Object> i) {
 		Intent intent = new Intent(this.getActivity(), CustomerDetail.class);
 		intent.putExtra("_id", i.get("_id")+"");
@@ -32,9 +27,12 @@ public class CustomerList extends ContentList {
 	}
 
 	@Override
-	protected void showData() {
-		currentpage++;
-		new Thread(new Runnable() {
+	protected void set() {
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("客户");
+		adapter = new SimpleAdapter(getContext(), data, R.layout.customer_list, new String[]{"name", "level", "image"}, new int[]{R.id.customer_list_name, R.id.customer_list_level, R.id.customer_list_image});
+		leftButton.setText("全部客户");
+		rightButton.setText("我的客户");
+		runnable = new Runnable() {
 			@Override
 			public void run() {
 				try {
@@ -43,7 +41,14 @@ public class CustomerList extends ContentList {
 					con.setRequestMethod("POST");
 					con.setDoOutput(true);
 					con.setDoInput(true);
-					String str = "currentpage=" + currentpage;
+					if (isChanged)
+						dataClear();
+					currentpage++;
+					String str;
+					if (mode == 0)
+						str = "currentpage=" + currentpage;
+					else
+						str = "currentpage=" + currentpage + "&staffid=" + CurrentUser.id;
 					byte[] strData = str.getBytes("UTF-8");
 					OutputStream out = con.getOutputStream();
 					out.write(strData);
@@ -67,11 +72,12 @@ public class CustomerList extends ContentList {
 							map.put("image", R.drawable.ic_menu_customer);
 							data.add(map);
 						}
+						handler.sendEmptyMessage(0);
 					}
 				} catch (Exception e) {
 					Log.e("Customer_List", "Get detail failed.");
 				}
 			}
-		}).start();
+		};
 	}
 }

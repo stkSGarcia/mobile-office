@@ -22,14 +22,6 @@ public class ProductList extends ContentList {
 	private LinearLayout layout;
 
 	@Override
-	protected void set() {
-		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("产品");
-		adapter = new SimpleAdapter(getContext(), data, R.layout.product_list, new String[]{"name", "price", "image"}, new int[]{R.id.product_list_name, R.id.product_list_price, R.id.product_list_image});
-		layout = (LinearLayout) view.findViewById(R.id.button_layout);
-		layout.setVisibility(View.GONE);
-	}
-
-	@Override
 	protected void showDetail(Map<String, Object> i) {
 		Intent intent = new Intent(this.getActivity(), ProductDetail.class);
 		intent.putExtra("_id", i.get("_id")+"");
@@ -37,9 +29,12 @@ public class ProductList extends ContentList {
 	}
 
 	@Override
-	protected void showData() {
-		currentpage++;
-		new Thread(new Runnable() {
+	protected void set() {
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("产品");
+		adapter = new SimpleAdapter(getContext(), data, R.layout.product_list, new String[]{"name", "price", "image"}, new int[]{R.id.product_list_name, R.id.product_list_price, R.id.product_list_image});
+		layout = (LinearLayout) view.findViewById(R.id.button_layout);
+		layout.setVisibility(View.GONE);
+		runnable = new Runnable() {
 			@Override
 			public void run() {
 				try {
@@ -48,6 +43,7 @@ public class ProductList extends ContentList {
 					con.setRequestMethod("POST");
 					con.setDoOutput(true);
 					con.setDoInput(true);
+					currentpage++;
 					String str = "currentpage=" + currentpage;
 					byte[] strData = str.getBytes("UTF-8");
 					OutputStream out = con.getOutputStream();
@@ -72,11 +68,12 @@ public class ProductList extends ContentList {
 							map.put("image", R.drawable.ic_menu_product);
 							data.add(map);
 						}
+						handler.sendEmptyMessage(0);
 					}
 				} catch (Exception e) {
 					Log.e("Product_List", "Get detail failed.");
 				}
 			}
-		}).start();
+		};
 	}
 }

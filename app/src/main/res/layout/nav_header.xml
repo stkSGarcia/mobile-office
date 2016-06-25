@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
 		xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:tools="http://schemas.android.com/tools"
 		android:layout_width="match_parent"
 		android:layout_height="200dp"
 		android:background="@drawable/side_nav_bar"
@@ -14,17 +15,19 @@
 			android:src="@drawable/blank_portrait"/>
 
 	<TextView
+			android:id="@+id/header_name"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:paddingTop="10dp"
-			android:text="游客"
+			tools:text="游客"
 			android:textColor="#ffffff"/>
 
 	<TextView
+			android:id="@+id/header_id"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
 			android:paddingTop="6dp"
-			android:text="ID: XXXXXXXXXX"
+			tools:text="ID: XXXXXXXXXX"
 			android:textColor="#ffffff"/>
 
 </LinearLayout>

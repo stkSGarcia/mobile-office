@@ -1,6 +1,9 @@
 package stk.mobileoffice;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
@@ -10,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.SimpleAdapter;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +25,9 @@ import java.util.Map;
  */
 public class ContentList extends Fragment implements SwipeRefreshLayout.OnRefreshListener, RefreshLoadListView.OnRefreshListener {
     protected View view;
+    protected MHandler handler = new MHandler(this);
+    protected Thread thread;
+    protected Runnable runnable;
     protected SwipeRefreshLayout swipeRefreshLayout;
     protected RefreshLoadListView refreshLoadListView;
     protected SimpleAdapter adapter;
@@ -29,6 +36,8 @@ public class ContentList extends Fragment implements SwipeRefreshLayout.OnRefres
     protected int pagecount;
     protected Button leftButton;
     protected Button rightButton;
+    protected int mode;
+    protected boolean isChanged;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -46,7 +55,6 @@ public class ContentList extends Fragment implements SwipeRefreshLayout.OnRefres
         refreshLoadListView.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeColors(R.color.firstColor, R.color.secondColor, R.color.thirdColor, R.color.forthColor);
         data = new ArrayList<>();
-        currentpage = 0;
         set();
         refreshLoadListView.setAdapter(adapter);
         refreshLoadListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -55,13 +63,40 @@ public class ContentList extends Fragment implements SwipeRefreshLayout.OnRefres
                 showDetail(data.get(i));
             }
         });
+        leftButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mode = 0;
+                isChanged = true;
+                leftButton.setBackgroundResource(R.drawable.button_left_focus);
+                leftButton.setTextColor(Color.rgb(223, 223, 223));
+                rightButton.setBackgroundResource(R.drawable.button_right);
+                rightButton.setTextColor(Color.rgb(110, 110, 110));
+                showData();
+            }
+        });
+        rightButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mode = 1;
+                isChanged = true;
+                leftButton.setBackgroundResource(R.drawable.button_left);
+                leftButton.setTextColor(Color.rgb(110, 110, 110));
+                rightButton.setBackgroundResource(R.drawable.button_right_focus);
+                rightButton.setTextColor(Color.rgb(223, 223, 223));
+                showData();
+            }
+        });
+        currentpage = 0;
+        mode = 0;
+        isChanged = false;
         showData();
     }
 
     @Override
     public void onRefresh() {
         currentpage = 0;
-        data = new ArrayList<>();
+        data.clear();
         showData();
         swipeRefreshLayout.setRefreshing(false);
     }
@@ -73,7 +108,38 @@ public class ContentList extends Fragment implements SwipeRefreshLayout.OnRefres
         refreshLoadListView.loadMoreComplete();
     }
 
+    protected void showData(){
+        thread = new Thread(runnable);
+        thread.start();
+    }
+
+    protected void dataClear() {
+        data.clear();
+        isChanged = false;
+        currentpage = 0;
+        pagecount = 0;
+    }
+
     protected void set(){}
     protected void showDetail(Map<String, Object> i){}
-    protected void showData(){}
+
+    protected static class MHandler extends Handler {
+        private final WeakReference<ContentList> outer;
+        MHandler(ContentList target) {
+            outer = new WeakReference<>(target);
+        }
+        @Override
+        public void handleMessage(Message msg) {
+            ContentList target = outer.get();
+            if (target != null) {
+                switch (msg.what) {
+                    case 0:
+                        target.adapter.notifyDataSetChanged();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
 }

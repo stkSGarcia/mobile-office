@@ -33,6 +33,7 @@ public class Login extends Activity implements View.OnClickListener {
         if (DemoUsers.login(username.getText().toString(), password.getText().toString())) {
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
+            finish();
         } else {
             Toast.makeText(this, "登录失败", Toast.LENGTH_SHORT).show();
         }

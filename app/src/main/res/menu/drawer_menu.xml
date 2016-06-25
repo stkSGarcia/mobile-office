@@ -23,6 +23,10 @@
 				android:id="@+id/contact_menu"
 				android:icon="@drawable/ic_menu_contact"
 				android:title="@string/contact"/>
+		<item
+				android:id="@+id/info_menu"
+				android:icon="@drawable/ic_menu_info"
+				android:title="@string/info"/>
 	</group>
 
 </menu>

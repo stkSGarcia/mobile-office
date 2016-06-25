@@ -6,6 +6,7 @@ import android.util.Log;
 import android.widget.SimpleAdapter;
 import org.json.JSONObject;
 import stk.mobileoffice.ContentList;
+import stk.mobileoffice.CurrentUser;
 import stk.mobileoffice.R;
 
 import java.io.BufferedReader;
@@ -18,12 +19,6 @@ import java.util.Map;
 
 public class ContactList extends ContentList {
 	@Override
-	protected void set() {
-		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("联系人");
-		adapter = new SimpleAdapter(getContext(), data, R.layout.contact_list, new String[]{"name", "image"}, new int[]{R.id.contact_list_name, R.id.contact_list_image});
-	}
-
-	@Override
 	protected void showDetail(Map<String, Object> i) {
 		Intent intent = new Intent(this.getActivity(), ContactDetail.class);
 		intent.putExtra("_id", i.get("_id")+"");
@@ -31,9 +26,12 @@ public class ContactList extends ContentList {
 	}
 
 	@Override
-	protected void showData() {
-		currentpage++;
-		new Thread(new Runnable() {
+	protected void set() {
+		((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("联系人");
+		adapter = new SimpleAdapter(getContext(), data, R.layout.contact_list, new String[]{"name", "image"}, new int[]{R.id.contact_list_name, R.id.contact_list_image});
+		leftButton.setText("全部联系人");
+		rightButton.setText("我的联系人");
+		runnable = new Runnable() {
 			@Override
 			public void run() {
 				try {
@@ -42,7 +40,14 @@ public class ContactList extends ContentList {
 					con.setRequestMethod("POST");
 					con.setDoOutput(true);
 					con.setDoInput(true);
-					String str = "currentpage=" + currentpage;
+					if (isChanged)
+						dataClear();
+					currentpage++;
+					String str;
+					if (mode == 0)
+						str = "currentpage=" + currentpage;
+					else
+						str = "currentpage=" + currentpage + "&staffid=" + CurrentUser.id;
 					byte[] strData = str.getBytes("UTF-8");
 					OutputStream out = con.getOutputStream();
 					out.write(strData);
@@ -65,11 +70,12 @@ public class ContactList extends ContentList {
 							map.put("image", R.drawable.ic_menu_contact);
 							data.add(map);
 						}
+						handler.sendEmptyMessage(0);
 					}
 				} catch (Exception e) {
 					Log.e("Contact_List", "Get detail failed.");
 				}
 			}
-		}).start();
+		};
 	}
 }

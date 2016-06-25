@@ -20,6 +20,7 @@ import java.net.URL;
 public class CustomerDetail extends AppCompatActivity {
     private String id;
     private MHandler handler = new MHandler(this);
+    private Thread thread;
     private TextView text_name;
     private TextView text_level;
     private TextView text_tel;
@@ -56,40 +57,43 @@ public class CustomerDetail extends AppCompatActivity {
     }
 
     private void showDetail() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    URL url = new URL("http://nqiwx.mooctest.net:8090/wexin.php/Api/Index/customer_query_json?customerid=" + id);
-                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
-                    con.setRequestMethod("GET");
-                    con.setDoOutput(true);
-                    con.setDoInput(true);
-                    if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
-                        BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
-                        StringBuilder result = new StringBuilder();
-                        String s;
-                        while ((s = in.readLine()) != null)
-                            result.append(s);
-                        Log.i("Customer_Detail_Data", result.toString());
-                        JSONObject single = new JSONObject(result.toString()).getJSONObject("0");
-                        Message msg = new Message();
-                        msg.obj = single.getString("customername") + ";" +
-                                TypeMap.getCustomerType(single.getString("customertype")) + ";" +
-                                single.getString("telephone") + ";" +
-                                single.getString("email") + ";" +
-                                single.getString("website") + ";" +
-                                single.getString("address");
-                        handler.sendMessage(msg);
-                    }
-                } catch (Exception e) {
-                    Log.e("Customer_Detail", "Get detail failed.");
-                }
-            }
-        }).start();
+        thread = new Thread(runnable);
+        thread.start();
     }
 
-    private class MHandler extends Handler {
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            try {
+                URL url = new URL("http://nqiwx.mooctest.net:8090/wexin.php/Api/Index/customer_query_json?customerid=" + id);
+                HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                con.setRequestMethod("GET");
+                con.setDoOutput(true);
+                con.setDoInput(true);
+                if (con.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                    BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+                    StringBuilder result = new StringBuilder();
+                    String s;
+                    while ((s = in.readLine()) != null)
+                        result.append(s);
+                    Log.i("Customer_Detail_Data", result.toString());
+                    JSONObject single = new JSONObject(result.toString()).getJSONObject("0");
+                    Message msg = new Message();
+                    msg.obj = single.getString("customername") + ";" +
+                            TypeMap.getCustomerType(single.getString("customertype")) + ";" +
+                            single.getString("telephone") + ";" +
+                            single.getString("email") + ";" +
+                            single.getString("website") + ";" +
+                            single.getString("address");
+                    handler.sendMessage(msg);
+                }
+            } catch (Exception e) {
+                Log.e("Customer_Detail", "Get detail failed.");
+            }
+        }
+    };
+
+    private static class MHandler extends Handler {
         private final WeakReference<CustomerDetail> outer;
         MHandler(CustomerDetail target) {
             outer = new WeakReference<>(target);
@@ -100,13 +104,13 @@ public class CustomerDetail extends AppCompatActivity {
             if (target != null) {
                 String raw = (String) msg.obj;
                 String[] data = raw.split(";", -1);
-                getSupportActionBar().setTitle(data[0]);
-                text_name.setText(data[0]);
-                text_level.setText(data[1]);
-                text_tel.setText(data[2]);
-                text_mail.setText(data[3]);
-                text_web.setText(data[4]);
-                text_addr.setText(data[5]);
+                target.getSupportActionBar().setTitle(data[0]);
+                target.text_name.setText(data[0]);
+                target.text_level.setText(data[1]);
+                target.text_tel.setText(data[2]);
+                target.text_mail.setText(data[3]);
+                target.text_web.setText(data[4]);
+                target.text_addr.setText(data[5]);
             }
         }
     }

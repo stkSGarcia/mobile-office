@@ -6,5 +6,6 @@ package stk.mobileoffice;
  * Time: 22:33
  */
 public class CurrentUser {
-    public static int id;
+    public static int id = 0;
+    public static String name = "";
 }
