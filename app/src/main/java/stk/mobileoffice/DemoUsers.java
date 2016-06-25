@@ -37,7 +37,7 @@ public enum DemoUsers {
     }
 
     private static void setName() {
-        new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
@@ -60,6 +60,12 @@ public enum DemoUsers {
                     Log.e("name", "Get name failed.");
                 }
             }
-        }).start();
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

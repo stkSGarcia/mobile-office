@@ -1,4 +1,4 @@
-package stk.mobileoffice.customer;
+package stk.mobileoffice.contact;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -24,22 +24,25 @@ import java.net.URL;
 /**
  * Author: stk
  * Date: 2016/6/25
- * Time: 15:25
+ * Time: 17:53
  */
-public class CreateCustomer extends AppCompatActivity {
+public class CreateContact extends AppCompatActivity {
     private MHandler handler = new MHandler(this);
+    private String customerId;
     private EditText text_name;
-    private EditText text_type;
+    private EditText text_mobile;
     private EditText text_tel;
     private EditText text_mail;
-    private EditText text_web;
+    private EditText text_age;
+    private EditText text_gender;
     private EditText text_addr;
     private Button confirm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.customer_create);
+        setContentView(R.layout.contact_create);
+        customerId = getIntent().getStringExtra("customerid");
         initView();
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -54,18 +57,20 @@ public class CreateCustomer extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    URL url = new URL("http://nqiwx.mooctest.net:8090/wexin.php/Api/Index/customer_create_json");
+                    URL url = new URL("http://nqiwx.mooctest.net:8090/wexin.php/Api/Index/contact_create_json");
                     HttpURLConnection con = (HttpURLConnection) url.openConnection();
                     con.setRequestMethod("POST");
                     con.setDoOutput(true);
                     con.setDoInput(true);
-                    String str = "staffid=" + CurrentUser.id +
-                            "&customername=" + text_name.getText().toString() +
-                            "&customertype=" + text_type.getText().toString() +
-                            "&telephone=" + text_tel.getText().toString() +
-                            "&email=" + text_mail.getText().toString() +
-                            "&website=" + text_web.getText().toString() +
-                            "&address=" + text_addr.getText().toString();
+                    String str = "customerid=" + customerId +
+                            "&staffid=" + CurrentUser.id +
+                            "&contactsname=" + text_name.getText().toString() +
+                            "&contactsmobile=" + text_mobile.getText().toString() +
+                            "&contactstelephone=" + text_tel.getText().toString() +
+                            "&contactsemail=" + text_mail.getText().toString() +
+                            "&contactsage=" + text_age.getText().toString() +
+                            "&contactsgender=" + text_gender.getText().toString() +
+                            "&contactsaddress=" + text_addr.getText().toString();
                     byte[] strData = str.getBytes("UTF-8");
                     OutputStream out = con.getOutputStream();
                     out.write(strData);
@@ -75,12 +80,12 @@ public class CreateCustomer extends AppCompatActivity {
                         String s;
                         while ((s = in.readLine()) != null)
                             result.append(s);
-                        Log.i("Customer_Create_Data", result.toString());
+                        Log.i("Contact_Create_Data", result.toString());
                         if (new JSONObject(result.toString()).getInt("resultcode") == 0) {
                             Message msg = new Message();
                             msg.obj = "创建成功";
                             handler.sendMessage(msg);
-                            CreateCustomer.this.finish();
+                            CreateContact.this.finish();
                         } else {
                             Message msg = new Message();
                             msg.obj = "创建失败";
@@ -88,7 +93,7 @@ public class CreateCustomer extends AppCompatActivity {
                         }
                     }
                 } catch (Exception e) {
-                    Log.e("Customer_Create", "Create failed.");
+                    Log.e("Contact_Create", "Create failed.");
                     Message msg = new Message();
                     msg.obj = "无法创建";
                     handler.sendMessage(msg);
@@ -108,23 +113,24 @@ public class CreateCustomer extends AppCompatActivity {
     }
 
     private void initView() {
-        text_name = (EditText) findViewById(R.id.customer_create_name);
-        text_type = (EditText) findViewById(R.id.customer_create_type);
-        text_tel = (EditText) findViewById(R.id.customer_create_tel);
-        text_mail = (EditText) findViewById(R.id.customer_create_mail);
-        text_web = (EditText) findViewById(R.id.customer_create_web);
-        text_addr = (EditText) findViewById(R.id.customer_create_addr);
-        confirm = (Button) findViewById(R.id.customer_create_confirm);
+        text_name = (EditText) findViewById(R.id.contact_create_name);
+        text_mobile = (EditText) findViewById(R.id.contact_create_mobile);
+        text_tel = (EditText) findViewById(R.id.contact_create_tel);
+        text_mail = (EditText) findViewById(R.id.contact_create_mail);
+        text_age = (EditText) findViewById(R.id.contact_create_age);
+        text_gender = (EditText) findViewById(R.id.contact_create_gender);
+        text_addr = (EditText) findViewById(R.id.contact_create_addr);
+        confirm = (Button) findViewById(R.id.contact_create_confirm);
     }
 
     private static class MHandler extends Handler {
-        private final WeakReference<CreateCustomer> outer;
-        MHandler(CreateCustomer target) {
+        private final WeakReference<CreateContact> outer;
+        MHandler(CreateContact target) {
             outer = new WeakReference<>(target);
         }
         @Override
         public void handleMessage(Message msg) {
-            CreateCustomer target = outer.get();
+            CreateContact target = outer.get();
             if (target != null) {
                 String str = (String) msg.obj;
                 Toast.makeText(target, str, Toast.LENGTH_SHORT).show();

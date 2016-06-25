@@ -25,5 +25,13 @@
 				  android:parentActivityName=".MainActivity"/>
 		<activity android:name=".contact.ContactDetail"
 				  android:parentActivityName=".MainActivity"/>
+		<activity android:name=".opportunity.CreateOpportunity"
+				  android:parentActivityName=".customer.CustomerDetail"/>
+		<activity android:name=".customer.CreateCustomer"
+				  android:parentActivityName=".MainActivity"/>
+		<activity android:name=".product.CreateProduct"
+				  android:parentActivityName=".MainActivity"/>
+		<activity android:name=".contact.CreateContact"
+				  android:parentActivityName=".customer.CustomerDetail"/>
 	</application>
 </manifest>

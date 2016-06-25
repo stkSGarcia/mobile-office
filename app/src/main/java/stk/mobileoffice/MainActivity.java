@@ -8,7 +8,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import stk.mobileoffice.business.BusinessFragment;
 import stk.mobileoffice.contact.ContactList;
@@ -33,6 +35,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		drawer.addDrawerListener(toggle);
 		toggle.syncState();
 		navigation.setNavigationItemSelectedListener(this);
+		View header = navigation.getHeaderView(0);
+		if (header != null) {
+			TextView headerName = (TextView) header.findViewById(R.id.header_name);
+			TextView headerId = (TextView) header.findViewById(R.id.header_id);
+			headerName.setText(CurrentUser.name);
+			headerId.setText("ID: " + CurrentUser.id);
+		}
 		//初始界面
 		getSupportFragmentManager().beginTransaction().replace(R.id.content, new OpportunityList()).commit();
 	}
@@ -74,12 +83,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 		getSupportFragmentManager().beginTransaction().replace(R.id.content, fragment).commit();
 		drawer.closeDrawer(GravityCompat.START);
 		return true;
-	}
-
-	private void setHeader() {
-		TextView headerName = (TextView) findViewById(R.id.header_name);
-		TextView headerId = (TextView) findViewById(R.id.header_id);
-		headerName.setText(CurrentUser.name);
-		headerId.setText("ID: "+CurrentUser.id);
 	}
 }

@@ -14,7 +14,7 @@ import android.widget.Button;
 import android.widget.SimpleAdapter;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -54,7 +54,7 @@ public class ContentList extends Fragment implements SwipeRefreshLayout.OnRefres
         swipeRefreshLayout.setOnRefreshListener(this);
         refreshLoadListView.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeColors(R.color.firstColor, R.color.secondColor, R.color.thirdColor, R.color.forthColor);
-        data = new ArrayList<>();
+        data = new LinkedList<>();
         set();
         refreshLoadListView.setAdapter(adapter);
         refreshLoadListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -111,6 +111,11 @@ public class ContentList extends Fragment implements SwipeRefreshLayout.OnRefres
     protected void showData(){
         thread = new Thread(runnable);
         thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     protected void dataClear() {

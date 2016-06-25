@@ -1,15 +1,20 @@
 package stk.mobileoffice.customer;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.TextView;
 import org.json.JSONObject;
 import stk.mobileoffice.R;
 import stk.mobileoffice.TypeMap;
+import stk.mobileoffice.contact.CreateContact;
+import stk.mobileoffice.opportunity.CreateOpportunity;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -38,10 +43,28 @@ public class CustomerDetail extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.create_multi_menu, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
         switch (item.getItemId()){
             case android.R.id.home:
                 this.finish();
+                return true;
+            case R.id.create_opportunity_btn:
+                intent = new Intent(this, CreateOpportunity.class);
+                intent.putExtra("customerid", id);
+                startActivity(intent);
+                return true;
+            case R.id.create_contact_btn:
+                intent = new Intent(this, CreateContact.class);
+                intent.putExtra("customerid", id);
+                startActivity(intent);
                 return true;
         }
         return super.onOptionsItemSelected(item);
