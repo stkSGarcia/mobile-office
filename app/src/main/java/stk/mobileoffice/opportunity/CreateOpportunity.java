@@ -32,8 +32,6 @@ public class CreateOpportunity extends AppCompatActivity {
     private EditText text_name;
     private EditText text_amount;
     private EditText text_type;
-    private EditText text_rate;
-    private EditText text_date;
     private Button confirm;
 
     @Override
@@ -60,13 +58,11 @@ public class CreateOpportunity extends AppCompatActivity {
                     con.setRequestMethod("POST");
                     con.setDoOutput(true);
                     con.setDoInput(true);
-                    String str = "staffid"+ CurrentUser.id +
-                            "&customerid"+ customerId +
+                    String str = "staffid="+ CurrentUser.id +
+                            "&customerid="+ customerId +
                             "&opportunitytitle=" + text_name.getText().toString() +
                             "&estimatedamount=" + text_amount.getText().toString() +
-                            "&businesstype=" + text_type.getText().toString() +
-                            "&successrate=" + text_rate.getText().toString() +
-                            "&expecteddate=" + text_date.getText().toString();
+                            "&businesstype=" + text_type.getText().toString();
                     byte[] strData = str.getBytes("UTF-8");
                     OutputStream out = con.getOutputStream();
                     out.write(strData);
@@ -112,8 +108,6 @@ public class CreateOpportunity extends AppCompatActivity {
         text_name = (EditText) findViewById(R.id.opportunity_create_name);
         text_amount = (EditText) findViewById(R.id.opportunity_create_amount);
         text_type = (EditText) findViewById(R.id.opportunity_create_type);
-        text_rate = (EditText) findViewById(R.id.opportunity_create_rate);
-        text_date = (EditText) findViewById(R.id.opportunity_create_date);
         confirm = (Button) findViewById(R.id.opportunity_create_confirm);
     }
 

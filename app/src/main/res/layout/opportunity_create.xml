@@ -54,36 +54,6 @@
                 android:singleLine="true"
                 android:textSize="25sp"
                 tools:text="1"/>
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:text="成功几率"/>
-        <EditText
-                android:id="@+id/opportunity_create_rate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:singleLine="true"
-                android:textSize="25sp"
-                tools:text="12%"/>
-        <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:textSize="20sp"
-                android:textStyle="bold"
-                android:text="预计日期"/>
-        <EditText
-                android:id="@+id/opportunity_create_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="30dp"
-                android:singleLine="true"
-                android:textSize="25sp"
-                tools:text="2017"/>
         <Button
                 android:id="@+id/opportunity_create_confirm"
                 android:layout_width="match_parent"
