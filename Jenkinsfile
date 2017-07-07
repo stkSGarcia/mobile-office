@@ -1,8 +1,10 @@
-node {
-    stage('SCM') {
-        git 'https://github.com/samuelgarciastk/MobileOffice.git'
-    }
-    stage('QA') {
-        sh 'sonar-scanner'
+pipeline {
+    agent { docker 'maven:3.3.3' }
+    stages {
+        stage('build') {
+            steps {
+                sh 'mvn --version'
+            }
+        }
     }
 }
