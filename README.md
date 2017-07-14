@@ -1,2 +1,2 @@
 # MobileOffice
-Android app
+An office application for Android.
